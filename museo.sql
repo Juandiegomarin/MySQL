@@ -110,7 +110,30 @@ create table if not exists restauraciones
     constraint fk_departamento_empleados foreign key(codEmple)
     references empleados(codemple)
     
+ /* A. Queremos que si se elimina un empleado,
+      se elimine el
+      restaurador/vigilante relacionado
+      
+      on delete cascade on update cascade
+*/
+
+/* B. No vamos a permitir que se modifique
+    el código de estilo
+      de una obra, en todo caso se le asignará el valor nulo
+      
+      on delente no action on update set null
+*/
+/* C. Vamos a permitir que se eliminen artistas, en este caso
+      las obras se quedarán sin autor
+      on delete set null on update no action
+*/
+
+/* D. Vamos a permitir que se eliminen artistas, en este caso
+      las obras se quedarán sin autor, pero, una vez que demos
+    de alta una obra, el código de artista no podrá cambiar
     
+    on delete set null on update no action
+*/
     
     
     
