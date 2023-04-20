@@ -129,5 +129,10 @@ delimiter ;
 
 call ej7();
 
+select * from productos;
+update productos
+set descripcion ='Pastel'
+where descripcion='Tarta';
+
 
 
