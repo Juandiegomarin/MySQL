@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS `factura`;
 
 CREATE TABLE `factura` (
   `pk` int(11) NOT NULL,
-  `fecha_emision` datetime DEFAULT NULL,
+  `fecha_emision` date DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `totalImporte` decimal(6,2),
   PRIMARY KEY (`pk`)
