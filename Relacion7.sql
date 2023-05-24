@@ -27,3 +27,26 @@ select nomcat from categorias
 join articulos on categorias.codcat=articulos.codcat
 group by categorias.nomcat
 having avg(articulos.precioventa)>(select precioventa from articulos where refart='C1_01');
+
+-- Ejercicio 5
+
+select sum(precioventa)
+from ventas join detalleVenta 
+	on ventas.codventa = detalleVenta.codventa
+where year(fecventa) =  2012
+group by month(fecventa);
+
+-- Ejercicio 6
+select sum(precioventa)
+from ventas join detalleVenta 
+	on ventas.codventa = detalleVenta.codventa
+where year(fecventa) =  2012
+group by month(fecventa)
+having sum(precioventa) > (select avg(precioventa)
+							from ventas join detalleVenta 
+								on ventas.codventa = detalleVenta.codventa
+									where year(fecventa) = 2012);
+                                    
+                                    
+                                    
+                                    
