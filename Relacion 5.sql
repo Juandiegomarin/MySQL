@@ -1,138 +1,78 @@
+
 -- Relacion 5
 
+-- Ejercicio 1
+select descripcion from productos where left(descripcion ,1)='a';
 
-use bdalmacen;
+-- Ejercicio 2
 
+select reverse(telefono)from proveedores where codproveedor=1;
 
--- Ej 1
-drop procedure if exists ej1;
-delimiter $$
+-- Ejercicio 3
 
-create procedure ej1(in letra char(1))
-begin
+select month(fecpedido) , codpedido
+from pedidos 
+join productos on pedidos.codproducto = productos.codproducto
+join categorias on productos.codcategoria= categorias.codcategoria
+ where categorias.codcategoria =4 and fecentrega is null;
 
-select *
-from  productos
-where left(descripcion,1)=letra;
+-- Ejercicio 4
 
-end $$
-delimiter ;
-
-call ej1('a');
-
-
--- Ej 2
-
-
-drop procedure if exists ej2;
-delimiter $$
-
-create procedure ej2(in numeroProveedor int)
-begin
-
-select reverse(proveedores.telefono)
-from proveedores
-where codproveedor=numeroProveedor;
-
-end $$
-delimiter ;
-
-call ej2(1);
-
-
--- Ej 3
-
-drop procedure if exists ej3;
-delimiter $$
-
-create procedure ej3(in codigoCategoria int)
-begin
-
-select productos.descripcion as Nombre,  month(pedidos.fecentrega) as MesEntrega
-
-from pedidos join productos on pedidos.codproducto= productos.codproducto
-join categorias on productos.codcategoria=categorias.codcategoria
-
-where categorias.codcategoria=codigoCategoria;
-
-
-end $$
-delimiter ;
-
-call ej3(1);
-
-
--- Ej 4
-
-drop procedure if exists ej4;
-delimiter $$
-
-create procedure ej4()
-begin
-
-select *,left(categorias.Nomcategoria,3) from  productos join categorias on productos.codcategoria=categorias.codcategoria
+select left(categorias.Nomcategoria,3) , productos.descripcion, productos.codcategoria from productos
+join categorias on productos.codcategoria = categorias.codcategoria
 order by categorias.codcategoria;
 
+-- Ejercicio 5
 
-end $$
-delimiter ;
+select preciounidad,pow(preciounidad,2),pow(preciounidad,3) from productos;
 
-call ej4();
+-- Ejercicio 6
+select month(curdate()), monthname(curdate());
 
+-- Ejercicio 7
 
--- Ej 5
+select datediff(fecentrega, curdate()) from pedidos
+where month(fecentrega)=month(curdate()) and year(fecentrega) = year(curdate());
 
-drop procedure if exists ej5;
-delimiter $$
+-- Ejercicio 8
 
-create procedure ej5()
-begin
-
-select power(productos.preciounidad,2) as PrecioCuadrado,power(productos.preciounidad,3) as PrecioCubo from productos;
-
-
-end $$
-delimiter ;
-
-call ej5();
-
--- Ej 6
-
-drop procedure if exists ej6;
-delimiter $$
-
-create procedure ej6()
-begin
-
-select month(curdate()) as MesActual;
-
-
-end $$
-delimiter ;
-
-call ej6();
-
--- Ej 7
-
-drop procedure if exists ej7;
-delimiter $$
-
-create procedure ej7()
-begin
-
-select day(curdate())-day(pedidos.fecentrega) as diasQueSeEntregaron from pedidos
-where month(pedidos.fecentrega)=month(curdate());
-
-
-end $$
-delimiter ;
-
-call ej7();
-
-select * from productos;
 update productos
-set descripcion ='Pastel'
-where descripcion='Tarta';
+set descripcion='tarta'
+where codproducto=(select codproducto from productos where descripcion ='Pan fino');
+
+-- Ejercicico 9
+select right(codpostal,3) from proveedores;
+
+-- Ejercicio 10
+select upper(Nomcategoria), count(codproducto) from categorias
+join productos where categorias.codcategoria= productos.codcategoria
+group by categorias.codcategoria;
+
+-- Ejercicio 11
+select descripcion , codcategoria from productos
+order by codcategoria, length(descripcion);
+
+-- Ejercicio 12
 
 
+update productos
+set descripcion= trim(descripcion);
 
+-- Ejercicio 13
+select concat(reverse(right(telefono,3)),right(nomempresa,2),reverse(left(telefono,4))), reverse(telefono) as tlfninvertido, telefono as tlf from proveedores;
+
+select telefono, reverse(telefono),
+	   substring(reverse(telefono), 4,2),
+		right(nomempresa,2),
+		replace(reverse(telefono),
+				substring(reverse(telefono), 4,2),
+				right(nomempresa,2))
+from proveedores;
+
+-- Ejercicio 14
+select round(preciounidad,2)*0.1 from productos;
+
+-- Ejercicio 15
+select descripcion, convert(repeat(concat(codproducto, codcategoria),2), char(12)) as resultado,
+	repeat(concat(codproducto, codcategoria),2) as SinFormato
+from productos;
