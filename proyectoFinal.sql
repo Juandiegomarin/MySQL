@@ -1,20 +1,25 @@
+
+drop database proyectofinal;
+create database proyectoFinal;
 use proyectoFinal;
 
 drop table if exists generacion;
 create table if not exists generacion(
-
+	
+    idGeneracion int auto_increment,
 	numeroGeneracion int,
     numeroPokemon int,
 	nombreRegion varchar(20),
     
-    constraint pk_generacion primary key (numeroGeneracion)
+    constraint pk_generacion primary key (idGeneracion)
 
 
 );
 
 drop table if exists pokemon;
 create table if not exists pokemon(
-	idPokemon int,
+
+	idPokemon int auto_increment,
 	numeroPokedex int,
     generacion int,
     nombre varchar(30),
@@ -22,14 +27,15 @@ create table if not exists pokemon(
     tipo2 varchar(15) default 'none',
 	
     constraint pk_numero primary key (idPokemon),
-    constraint fk_generacion foreign key (generacion) references generacion(numeroGeneracion)
+    constraint fk_generacion foreign key (generacion) references generacion(idGeneracion)
+    on delete cascade
 
 );
 
 drop table if exists habilidad;
 create table if not exists habilidad(
 	
-    idHabilidad int,
+    idHabilidad int auto_increment,
     nombreHabilidad varchar(20),
     descripcion varchar (500),
     
@@ -45,17 +51,19 @@ create table if not exists habilidadPokemon(
     oculta tinyint (1),
     
     constraint pk_habilidad_pokemon primary key (idHabilidad,idPokemon),
-    constraint fk_habilidad foreign key(idHabilidad) references habilidad(idHabilidad),
+    constraint fk_habilidad foreign key(idHabilidad) references habilidad(idHabilidad)
+    on delete cascade,
 	constraint fk_pokemon foreign key(idPokemon) references pokemon(idPokemon)
+    on delete cascade
     
 );
 
 
 insert into generacion
  values
- (1,151,'Kanto'),
- (2,100,'Johto'),
- (3,135,'Hoenn');
+ (default,1,151,'Kanto'),
+ (default,2,100,'Johto'),
+ (default,3,135,'Hoenn');
  
  insert into pokemon
  values
@@ -64,14 +72,14 @@ insert into generacion
  
  insert into habilidad
  values
- (1,'Mar LLamas','Aumenta los ataques de tipo fuego cuando el poseedor tiene menos de 1/3 de la vida'),
- (2,'Absorbe electricidad','Cuando el poseedor recibe un ataque de tipo electrico le aumenta el Sp.Atk por 1,5'),
- (3,'Poder Solar','Poder solar con sol o sol abrasador aumenta el ataque especial del Pokémon poseedor en un 50%, pero a cambio el Pokémon pierde 1/8 de sus PS máximos al final de cada turno.');
+ (default,'Mar LLamas','Aumenta los ataques de tipo fuego cuando el poseedor tiene menos de 1/3 de la vida'),
+ (default,'Absorbe electricidad','Cuando el poseedor recibe un ataque de tipo electrico le aumenta el Sp.Atk por 1,5'),
+ (default,'Poder Solar','Poder solar con sol o sol abrasador aumenta el ataque especial del Pokémon poseedor en un 50%, pero a cambio el Pokémon pierde 1/8 de sus PS máximos al final de cada turno.');
  
  insert into habilidadPokemon
  values
  (1,1,0),
- (3,1,1),
+ (3,3,1),
  (2,2,0);
  -- 
 
