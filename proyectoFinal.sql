@@ -6,7 +6,7 @@ use proyectoFinal;
 drop table if exists generacion;
 create table if not exists generacion(
 	
-    idGeneracion int auto_increment,
+    idGeneracion int,
 	numeroGeneracion int,
     numeroPokemon int,
 	nombreRegion varchar(20),
@@ -19,7 +19,7 @@ create table if not exists generacion(
 drop table if exists pokemon;
 create table if not exists pokemon(
 
-	idPokemon int auto_increment,
+	idPokemon int,
 	numeroPokedex int,
     generacion int,
     nombre varchar(30),
@@ -35,7 +35,7 @@ create table if not exists pokemon(
 drop table if exists habilidad;
 create table if not exists habilidad(
 	
-    idHabilidad int auto_increment,
+    idHabilidad int,
     nombreHabilidad varchar(20),
     descripcion varchar (500),
     
@@ -61,14 +61,17 @@ create table if not exists habilidadPokemon(
 
 insert into generacion
  values
- (default,1,151,'Kanto'),
- (default,2,100,'Johto'),
- (default,3,135,'Hoenn');
+ (1,1,151,'Kanto'),
+ (2,2,100,'Johto'),
+ (3,3,135,'Hoenn');
  
  insert into pokemon
  values
- (3,6,1,'Charizard','Fuego','Volador'),
- (2,25,1,'Pikachu','Electrico',default);
+
+ (1,6,1,'Charizard','Fuego','Volador'),
+ (2,25,1,'Pikachu','Electrico',default),
+ (3,6,1,'Charizard','Fuego','Volador');
+
  
  insert into habilidad
  values
